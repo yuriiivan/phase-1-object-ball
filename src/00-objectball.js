@@ -119,7 +119,7 @@ const gameObject = () => {
 const findPlayer = (playerName) => {
   if (gameObject().home.players[playerName]) {
     return gameObject().home.players[playerName];
-  }else if(gameObject().away.players[playerName]) {
+  }else {
     return gameObject().away.players[playerName];
   }
 }
@@ -132,5 +132,16 @@ const shoeSize = (playerName) => {
   return findPlayer(playerName).Shoe
 }
 
-console.log(findPlayer("Brook Lopez"))
-console.log(shoeSize("Brook Lopez"))
+const findTeam = (teamName) => {
+  if(gameObject().home.teamName === teamName){
+    return gameObject().home.teamName
+  }else{
+    return gameObject().away.teamName
+  }
+}
+
+// const teamColors = (teamName) => {
+//   return teamColors(teamName)
+// }
+
+console.log(findTeam("Brooklyn Nets"))
