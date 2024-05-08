@@ -116,12 +116,21 @@ const gameObject = () => {
   return object;
 }
 
-const numPointsScored = (playerName) => {
+const findPlayer = (playerName) => {
   if (gameObject().home.players[playerName]) {
-    return gameObject().home.players[playerName].Points;
+    return gameObject().home.players[playerName];
   }else if(gameObject().away.players[playerName]) {
-    return gameObject().away.players[playerName].Points;
+    return gameObject().away.players[playerName];
   }
 }
 
-console.log(numPointsScored("Jason Terry"))
+const numPointsScored = (playerName) => {
+  return findPlayer(playerName).Points
+}
+
+const shoeSize = (playerName) => {
+  return findPlayer(playerName).Shoe
+}
+
+console.log(findPlayer("Brook Lopez"))
+console.log(shoeSize("Brook Lopez"))
