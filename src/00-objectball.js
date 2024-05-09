@@ -124,24 +124,95 @@ const findPlayer = (playerName) => {
   }
 }
 
-const numPointsScored = (playerName) => {
-  return findPlayer(playerName).Points
-}
+const numPointsScored = (playerName) => findPlayer(playerName).Points;
 
-const shoeSize = (playerName) => {
-  return findPlayer(playerName).Shoe
-}
+const shoeSize = (playerName) => findPlayer(playerName).Shoe;
 
 const findTeam = (teamName) => {
   if(gameObject().home.teamName === teamName){
-    return gameObject().home.teamName
+    return gameObject().home
   }else{
-    return gameObject().away.teamName
+    return gameObject().away
   }
 }
 
-// const teamColors = (teamName) => {
-//   return teamColors(teamName)
-// }
+const teamColors = (teamName) => findTeam(teamName).colors;
 
-console.log(findTeam("Brooklyn Nets"))
+const teamNames = () => [gameObject().home.teamName, gameObject().away.teamName]
+
+const playerNumbers = (teamName) => {
+  const team = findTeam(teamName).players;
+  const jerseyNumbers = [];
+  for(const player in team){
+    jerseyNumbers.push(team[player].Number)
+  }
+  return jerseyNumbers
+}
+
+const playerStats = (player) => findPlayer(player);
+
+const bigShoeRebounds = () => {
+  const obj = gameObject();
+  const allPlayers = {...obj.home.players,...obj.away.players}
+  let maxShoeSize = 0;
+  let playerWithLargestShoeSize = ''
+  for(const player in allPlayers){
+    const currentShoe = allPlayers[player].Shoe
+    if(currentShoe > maxShoeSize){
+      maxShoeSize = currentShoe;
+      playerWithLargestShoeSize = allPlayers[player]
+    }
+
+  }
+  return playerWithLargestShoeSize.Rebounds
+}
+
+const mostPointsScored = () => {
+  const obj = gameObject();
+  const allPlayers = {...obj.home.players,...obj.away.players}
+  console.log(allPlayers)
+  let mostPoints = 0
+  let playerWithMostPoints = ''
+  for(const player in allPlayers){
+    const currentPoints = allPlayers[player].Points
+    if(currentPoints > mostPoints){
+      mostPoints = currentPoints;
+      playerWithMostPoints = [player]
+    }
+  }
+  return playerWithMostPoints
+}
+
+const winningTeam = () => {
+  const brooklynNets = {...gameObject().home.players};
+  const charlotteHornets = {...gameObject().away.players};
+  let brooklynNetsPoints = 0;
+  let charlotteHornetsPoints = 0;
+  for(const player in charlotteHornets){
+    charlotteHornetsPoints += charlotteHornets[player].Points
+  }
+  for(const player in brooklynNets){
+    brooklynNetsPoints += brooklynNets[player].Points
+  }
+  if(brooklynNetsPoints > charlotteHornetsPoints){
+    return `Brooklyn Nets win with ${brooklynNetsPoints} points!!`
+  }else{
+    return `Charlotte Hornets win with ${charlotteHornetsPoints} points!!`
+  }
+}
+
+const playerWithLongestName = () => {
+  const allPlayers = {...gameObject().home.players,...gameObject().away.players}
+  const allPlayerNames =Object.keys(allPlayers)
+  let longestCharCount = 0;
+  let longestName = '';
+  for(const name of allPlayerNames){
+    //Replace all spaces with ''
+    const nameWithoutSpaces = name.replace(/\s/g, '');
+    if(nameWithoutSpaces.length > longestCharCount){
+      longestCharCount = nameWithoutSpaces.length;
+      longestName = name;
+    }
+  }
+  return longestName;
+}
